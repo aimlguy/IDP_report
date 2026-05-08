@@ -1,34 +1,60 @@
-\chapter{Code}
-\section{First Appendix}
-You can use \texttt{tcblisting} for creating the code snippets. The following example illustrates how one can customize the \texttt{tcblisting} to achieve the \texttt{tcl} script. Similarly, one can use it for other programming language listing, including HDL.
-
+\chapter{MATLAB Output and Dashboard Configurations}
+\section{MATLAB Regression Snippets}
+The following MATLAB commands extract coefficients utilizing robust fitting models:
 \begin{tcblisting}{listing only,colback=gray!10!white, breakable, boxsep=0pt,top=1mm,bottom=1mm,left=1mm,right=1mm,
 listing options={
-language= tcl,
+language= Matlab,
 basicstyle=\small\ttfamily, 
-otherkeywords={create_clock, set_clock_latency, set_input_delay, set_output_delay, set_load, set_max_fanout, set_fanout_load},
-keywordstyle=\color{blue}, 
-%keywordstyle=[2]{\color{red}},
 commentstyle=\color{gray},
-backgroundcolor=\color{gray!25},
-%morekeywords=[2]{arg,pos},
-%moredelim=[is][\color{violet}]{''}{''},
-escapechar=!}}
-# Since our design has a clock with name clk, 
-## specify that name under [get_port ]
-create_clock -period 40 -waveform {0 20} [get_ports clk]
+keywordstyle=\color{blue}
+}}
+% Load historical MSME Dataset
+data = readtable('energy_dataset.xlsx');
 
-# Setting a 'delay' on the clock:
-set_clock_latency 0.3 clk
+% Preprocessing
+production = data.Production;
+totalEnergy = data.E_eb + data.E_dg;
 
-# Setting up constraints on your I/P and O/P pins
-set_input_delay 2.0 -clock clk [all_inputs]!\tikz[remember picture]\node[](c1){};!
-set_output_delay 1.65 -clock clk [all_outputs]!\tikz[remember picture]\node[](c2){};!
+% Polynomial Fitting (Quadratic)
+p = polyfit(production, totalEnergy, 2);
 
-# Set realistic 'loads' on each output pin
-set_load 0.1 [all_outputs]
+% Predicting values based on the quadratic curve
+predictedEnergy = polyval(p, production);
 
-# Set 'maximum' fanin and fan-out for the input and output pins 
-set_max_fanout 1 [all_inputs]
-set_fanout_load 8 [all_outputs]      
+% Calculate Correlation Coefficient
+R_sq = 1 - sum((totalEnergy - predictedEnergy).^2) / sum((totalEnergy - mean(totalEnergy)).^2);
+disp(['R-squared value: ', num2str(R_sq)]);
 \end{tcblisting}
+
+\section{Sample Dataset Snippet}
+\begin{table}[h]
+\centering
+\caption{Sample Operational Data}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Day} & \textbf{Production} & \textbf{E\_EB (kWh)} & \textbf{E\_DG (kWh)} & \textbf{Total (kWh)} \\
+\hline
+1 & 500 & 850 & 50 & 900 \\
+2 & 550 & 900 & 100 & 1000 \\
+3 & 600 & 980 & 120 & 1100 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Scenario Export Examples}
+\begin{table}[h]
+\centering
+\caption{Scenario Export Tables}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Scenario} & \textbf{Savings Forecast (\%)} & \textbf{CO\textsubscript{2} Reduction (\%)} \\
+\hline
+DG Shutoff & +15\% & -80\% \\
+Load Shifting & +12\% & -10\% \\
+Standby Cut & +22\% & -18\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Dashboard Constraints}
+The implemented web dashboard reads direct simulation variables visualizing line graphs in synchronous updates. Export tables allow administrators to save configurations safely preserving modeled cost comparisons.

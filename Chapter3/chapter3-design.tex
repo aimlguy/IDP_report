@@ -1,27 +1,111 @@
-\chapter{Analysis/Design of Pipelined Analog to Digital converter}
+\chapter{System Design}
+\label{chap:design}
 
-Every chapter should start with an introduction paragraph. This paragraph should brief about the flow of the chapter. This introduction can be limited within 4 to 5 sentences. The chapter heading should be appropriately modified (a sample heading is shown for this chapter).But don't start the introduction paragraph in the chapters like "This chapter deals with....". Instead you should bring in the highlights of the chapter in the introduction paragraph. 
-\section{Contents of this Chapter}
-This chapter should contain the following sections and subsections in detail.
-\begin{enumerate}
-\item Specifications for the Design
-\item Pre analysis work for the design or Models used
-\item Design methodology in detail
-\item Design Equations
-\item Experimental techniques (if any)
-\end{enumerate}
-Apart from the aforementioned sections, you can add sections as per the requirements of the project in consultation with your guide.
+\section{Dataset Identification}
+The dataset forms the core of the digital twin implementation. Data was extracted from a regional MSME CNC machining facility containing historical daily operational logs over a span of 59 continuous operating days. 
 
-\section{Paraphrasing}
-When you paraphrase a written passage, you rewrite it to state the essential ideas in your own words. Because you do not quote your source word for word when paraphrasing, it is unnecessary to enclose the paraphrased material in quotation marks. However, the paraphrased material must be properly referenced because the ideas are taken from someone else whether or not the words are identical. 
+\begin{table}[h]
+\centering
+\caption{Dataset Variable Specifications}
+\label{tab:variables}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Variable} & \textbf{Measurement Unit} & \textbf{Data Type} \\
+\hline
+Production Level & Machined Parts (Units) & Integer \\
+EB Load (Grid) & Kilowatt-hours (kWh) & Float \\
+DG Load (Diesel) & Kilowatt-hours (kWh) & Float \\
+Total Energy & Kilowatt-hours (kWh) & Float \\
+Operating Hours & Hours (h) & Float \\
+\hline
+\end{tabular}
+\end{table}
 
-Ordinarily, the majority of the notes you take during the research phase of writing your report will paraphrase the original material. Paraphrase only the essential ideas. Strive to put original ideas into your own words without distorting them."
+\section{Preprocessing}
+Raw facility data often contains gaps due to sensor dropout or scheduled maintenance days. The 59 observations underwent rigorous preprocessing within MATLAB. Zero-value production days were isolated to identify baseline grid drift, while missing power parameters were reconstructed utilizing mean interpolation. Outliers exceeding 3 standard deviations (Z-score $> 3$) resulting from metering faults were expunged to guarantee model stability.
 
-\section{Quotations}
-When you have borrowed words, facts, or idea of any kind from someone else's work, acknowledge your debt by giving your source credit in footnote (or in running text as cited reference). Otherwise, you will be guilty of plagiarism. Also, be sure you have represented the original material honestly and accurately. Direct word to word quotations are enclosed in quotation marks."
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Figures/2.jpeg}
+    \caption{Preprocessing pipeline and data flow architecture within the Digital Twin environment}
+    \label{fig:preprocessing_dataflow}
+\end{figure}
 
-\vspace{0.75cm}
+\section{Mathematical Formulation}
+The digital twin requires absolute definitions connecting mechanical operations to electrical measurements.
 
- \textbf{The chapters should not end with figures, instead bring the paragraph explaining about the figure at the end followed by a summary paragraph.}
+\subsection{Energy Formulas}
+The absolute total facility energy aggregates both the utility grid ($E_{EB}$) and backup diesel generation ($E_{DG}$):
+$$ E_{total} = E_{EB} + E_{DG} $$
 
-After elaborating the various sections of the chapter (From Chapter 2 onwards), a summary paragraph should be written discussing the highlights of that particular chapter. This summary paragraph should not be numbered separately. This paragraph should connect the present chapter to the next chapter.  
+Operational efficiency ($\eta$) relates total energy consumed against active yield:
+$$ \eta = \frac{E_{total}}{\text{Production}} $$
+
+Energy Per Unit (EPU) specifies the exact energy density embedded within a single product:
+$$ EPU = \frac{E_{total}}{\text{Production}} \text{ (kWh/Unit)} $$
+
+Cost evaluations assume standardized regional tariff boundaries (e.g., grid power at \rupee 6/kWh and DG fuel-equivalent energy at \rupee 15/kWh):
+$$ \text{Total Cost} (\text{\rupee}) = 6 E_{EB} + 15 E_{DG} $$
+
+Carbon emission equivalents scale drastically based on thermal generation:
+$$ CO_2 (\text{kg}) \approx 0.8 \times E_{DG} $$
+
+\subsection{Predictive Architecture}
+The system trains a foundational linear model serving as the analytical baseline:
+$$ Energy_{pred} = m (\text{Production}) + C $$
+Here, $C$ physically represents the plant's standby baseline consumption when $Production = 0$.
+
+Subsequently, a quadratic regression architecture maps actual machine behavior, compensating for internal friction and thermal capacity losses at maximum RPM outputs:
+$$ Energy_{pred} = a (\text{Production})^2 + b (\text{Production}) + c $$
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2cm,
+        block/.style={rectangle, draw, fill=gray!10, text width=7em, text centered, rounded corners, minimum height=4em, thick},
+        line/.style={draw, -latex, thick}
+    ]
+        \node [block] (data) {Raw Dataset (59 Days)};
+        \node [block, below of=data] (pre) {MATLAB Preprocessing};
+        \node [block, below of=pre] (kpi) {KPI Extraction (EPU, CO2)};
+        \node [block, below of=kpi] (train) {Regression Training};
+        \node [block, right of=train, node distance=5cm] (eval) {Model Validation (R2, RMSE)};
+        \node [block, above of=eval, node distance=4cm] (twin) {Digital Twin Construction};
+        \node [block, above of=twin, node distance=2cm] (sim) {Scenario Optimization};
+
+        \path [line] (data) -- (pre);
+        \path [line] (pre) -- (kpi);
+        \path [line] (kpi) -- (train);
+        \path [line] (train) -- (eval);
+        \path [line] (eval) -- (twin);
+        \path [line] (twin) -- (sim);
+    \end{tikzpicture}
+    \caption{Methodology Workflow Diagram}
+    \label{fig:methodology}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        block/.style={rectangle, draw, fill=blue!5, text width=6em, text centered, minimum height=3em},
+        line/.style={draw, -latex, thick}
+    ]
+        \node [block] (meter) {IoT Gateway};
+        \node [block, right of=meter, node distance=4cm] (db) {Cloud SQL DB};
+        \node [block, right of=db, node distance=4cm] (engine) {AI Inference Engine};
+        \node [block, below of=engine, node distance=2.5cm] (dash) {Web Dashboard};
+
+        \path [line] (meter) -- node[above] {Telemetry} (db);
+        \path [line] (db) -- node[above] {Data Fetch} (engine);
+        \path [line] (engine) -- node[right] {JSON APIs} (dash);
+    \end{tikzpicture}
+    \caption{Proposed Digital Twin Systems Architecture}
+    \label{fig:architecture}
+\end{figure}
+
+\section{System Architecture}
+The framework operates as a segmented pipeline. Local plant data funnels through an IoT gateway protocol directly transmitting telemetry frames natively into a structured cloud SQL environment. The backend AI Inference Engine---housing the pre-trained MATLAB/Python coefficients---polls the database, computes current efficiencies, and pushes numerical insights to the external presentation layer.
+
+\section{Dashboard Design}
+The final application layer provides intuitive visualization interfaces. By rendering synchronous graphs regarding predicted baseline deviations and active DG consumption costs, it allows facility supervisors to execute rapid, well-informed adjustments terminating demand limit excursions before substantial financial penalties accrue.

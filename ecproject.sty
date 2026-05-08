@@ -974,55 +974,7 @@
       }%
     % set all keys
       {%
-      {%1st page
-    \clearpage
-    \thispagestyle{empty}
-      \@pgonetrue\@pgtwofalse
-        \parindent\z@
-        \normalfont%
-      \vspace*{0.35\paperheight}
-        \ifnum \c@secnumdepth>\m@ne%
-          \if@mainmatter%
-            \chapterbefore@pnr%
-        \if@leftpgone%
-          \raggedright
-        \fi%
-        \if@centerpgone%
-          \centering
-        \fi%
-        \if@rightpgone%
-          \raggedleft
-        \fi%
-            \if@leftname
-                \printnumber
-            \fi%
-            \printchaptername
-            \if@rightname
-                \printnumber
-            \fi%
-            \chapterafter@pnr
-          \fi%
-        \fi%
-        %chapter title
-        \interlinepenalty\@M%
-        \titlebeforeskip@pnr%
-        \titlefontfamily@pnr%
-      \titlefontsizepgone@pnr
-        \titlefontweight@pnr%
-        
-        \titlefontcolor@pnr%
-        %\selectfont%
-        \titlebefore@pnr%
-        {#2}
-        \titleafter@pnr%
-        \par\nobreak%
-    % skip after title
-        \titleafterskip@pnr%
-    % headers
-        %\thispagestyle{\headerstyle@pnr}%
-      \thispagestyle{emptypg}%
-      }
-      \pagebreak
+      
       {%2nd page
       \@pgtwotrue\@pgonefalse
         \parindent\z@
@@ -1154,3 +1106,4 @@
 }
 %\newcommand*{\indentPara}[1]{\ifthenelse{\equal{#1}{yes}}{\@indenttrue}{\@indentfalse}}
 \endinput
+

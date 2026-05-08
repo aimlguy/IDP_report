@@ -8,6 +8,8 @@
 \usepackage{qrcode}
 %%%Page related
 \usepackage{fancyhdr} % for header & footer
+\setlength{\headheight}{15pt} % Fix overlapping text in header
+\usepackage[T1]{fontenc} % Fix \quotesinglbase encoding error
 \usepackage[hidelinks]{hyperref}
 \usepackage[toc, nonumberlist]{glossaries} %For Glossaries - to be loaded only after hyperref package
 %\usepackage[automake]{glossaries-extra}
@@ -20,7 +22,13 @@
 %\fi
 \usepackage{setspace}
 %%%Table Related
+\usepackage{longtable}
 %\usepackage{booktabs}
 %\usepackage{makecell}
 %\usepackage{multirow}
 %\usepackage{multicol}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage{tfrupee}

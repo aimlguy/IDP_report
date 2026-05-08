@@ -1,20 +1,26 @@
 \chapter{Conclusion and Future Scope}
-Every chapter should start with an introduction paragraph. This paragraph should brief about the flow of the chapter. This introduction can be limited within 4 to 5 sentences. The chapter heading should be appropriately modified (a sample heading is shown for this chapter). But don't start the introduction paragraph in the chapters like "This chapter deals with....". Instead you should bring in the highlights of the chapter in the introduction paragraph.
+\label{chap:conclution}
 
 \section{Conclusion}
-This chapter should not contain an introduction paragraph like other chapters. You can directly write conclusion of the work done under this section. Typically this section can have 3 to 4 paragraphs. 
+This research successfully developed and tested an AI-driven Digital Twin for monitoring and optimizing industrial energy consumption in MSMEs. Using daily energy logs from a physically constrained machining facility, the mathematical application of quadratic regression proved highly effective, achieving a prediction accuracy of $R^2 = 0.965$. This accuracy enables the twin to reliably model potential operational constraints without requiring physical implementation on the factory floor. Simulation scenarios demonstrated clear financial potential: shifting the load profile to eliminate diesel dependency entirely generates a 60\% reduction in energy expenditure alongside an 836 kg drop in daily CO\textsubscript{2} emissions. Ultimately, the system establishes a scalable and affordable framework that integrates data analytics effectively into traditional manufacturing environments.
 
-First paragraph should bring in the scenario of the project and every objective should be explained here.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Figures/6.jpeg}
+    \caption{Final output visualization corresponding to the Digital Twin optimization targets, demonstrating the simulated load forecasting scenario and the impact of intervention.}
+    \label{fig:conclusion_summary_6}
+\end{figure}
 
-Second paragraph should say how the objectives are implemented and achieved.
-
-Last paragraph should draw the conclusions from each objective with quantitative results, performance improvement etc. 
-
-\section{Future Scope}
-Briefly discuss the constraints and limitations of the project and state the possibilities of extending the work in future.
-\section{Learning Outcomes of the Project}
+\section{Future Work}
 \begin{itemize}
-\item List the learning outcomes here
-\item List a minimum of 5 learning outcomes
+    \item \textbf{High-Frequency Edge Deployment:} Evolving from daily historical records to real-time integration utilizing Wi-Fi enabled Edge IoT sensors measuring running parameters at sub-second intervals.
+    \item \textbf{Automated Alert Processing:} Deploying script algorithms to trigger maintenance alerts natively when instantaneous machine load deviates drastically from established prediction curves.
+    \item \textbf{Neural Network Integration:} Implementing robust Long Short-Term Memory (LSTM) topologies to map complex seasonal weather variants and ambient thermal effects on heavy inductive equipment.
 \end{itemize}
 
+\section{Learning Outcomes}
+\begin{itemize}
+    \item Demonstrated proficiency in extracting predictive logic and Key Performance Indicators directly from raw operational facility data.
+    \item Successfully built and validated foundational regression models evaluating non-linear thermal scaling boundaries of industrial machineries.
+    \item Quantified abstract sustainable concepts (EPU tracking and Emissions footprints) translating theoretical equations into precise real-world monetary returns.
+\end{itemize}
