@@ -1,80 +1,51 @@
-# RVCE-Latex-Project-Report-Template
-This is a Latex template is only for RV College of Engineering students for their report writing in latex. You can use this template for both UG and PG mini/major project report writing in Latex. The presentation slide, discussed about how to use the commands from `ecproject` package, is attached [here](https://github.com/rvce-latex/Project-Report-Template/blob/main/ReportLatexV3.8_CommandUsage.pdf).
+# EnerVision: AI-Powered Digital Twin for Predictive Energy Intelligence
 
-The template, by defalut generates **UG Major project**.
+This repository contains the LaTeX source code and assets for the **EnerVision** IDP project report. This document provides instructions, dependencies, and critical context for other AI agents or developers working on this project.
 
-The following is the list of commands, which are used to generate the reports apart from **UG Major project**. You have to uncomment (with *precaution*) to generate:
-1. UG Minor project report
-2. PG Major project report
-3. PG Minor project report
-4. Interdisciplinary project report
-5. Design thinking lab report (not fully supported).
+## Project Structure
 
-### Errors when uncommenting mutually exclusive commands
-* You should not uncomment `\DTLProject` with `\pgProgram`
-* You should not uncomment `\DTLProject` with `\MinorProject` (or in combination with `\pgProgram`)
-* You should not uncomment `\IDPProject` with `\pgProgram`
-* You should not uncomment `\IDPProject` with `\MinorProject` (or in combination with `\pgProgram`)
-* You should not uncomment `\IDPProject` with `\DTLProject` or vice-versa
+- **`Main.tex`**: The root LaTeX file that configures document classes, packages, variables (like `\IDPProject`), and imports all other chapters.
+- **`Chapter1/` to `Chapter6/`**: Individual chapter `.tex` files containing the core content.
+- **`AuxFiles/ProjectBib.bib`**: The BibTeX database containing all bibliography references.
+- **`Appendix/Apndx.tex`**: Appendix contents, including source code listings.
+- **`Figures/`**: Contains all images and diagrams referenced in the document.
 
->>Note: `\DTLProject` is not fully supported yet.
+## Dependencies
 
-## Interdisciplinary Project (IDP)
-Uncomment the following command in `Main.tex`
-```
-%\IDPProject
-```
-This settings is used for generating IDP report. 
+- **LaTeX Distribution**: A modern LaTeX distribution like MiKTeX or TeX Live.
+- **pdflatex**: Required for PDF compilation.
+- **bibtex**: Required for bibliography generation (this project uses the `biblatex` package with the `ieee` style and a `bibtex` fallback backend).
 
->>Note: This command is only used for UG students, so if any of the other report generating commands are enabled, you will get an error message stating the exact mutually exclusive commands which were uncommented.
+## Compilation Instructions
 
+To ensure all citations, cross-references, and the Table of Contents are correctly resolved, you **must** use the following multi-pass compilation sequence:
 
-## For PG project report, uncomment the following command in `Main.tex` file
-
-```
- %\pgProgram%
+```bash
+pdflatex -interaction=nonstopmode Main.tex
+bibtex Main
+pdflatex -interaction=nonstopmode Main.tex
+pdflatex -interaction=nonstopmode Main.tex
 ```
 
-This will automatically takes in the values specified in the commands given below, for PG: 
-```
- \MastersIn[M.Tech]{Master of Technology} 
- \pgProgramName{VLSI Design & Embedded Systems}
-```
->> Note: `\MastersIn` command has 2 fields, where the field inside `[]` is used for specifying the shorter form of the type of master you are studying and is used inside the document for processing. So do specify this value for generating successful report.
+> **Warning:** Running `bibtex` on an outdated `Main.aux` file will cause references to fail and render literally (e.g., `[ref21]`). Always run `pdflatex` once *before* running `bibtex` when new citations are added.
 
-## For mini project generation, uncomment the following command in "Main.tex" file
-```
- %\MinorProject
-```
----
-## For Plagiarism check, uncomment the following command in "Main.tex" file
-```
- %\EnPlagReport
-```
-Uncomment `\EnPlagReport` line, before plagiarism check to remove Certificate, Declaration, Acknowledgement, ToC and Bibliography pages.
+## Important AI Context & Editing Guidelines
 
----
+When making modifications to this project, adhere strictly to the following rules:
 
-## To add Appendix chapter
-Uncomment the following lines in "Main.tex" file
-```
-%\appendix
-%\input{./Appendix/Apndx}%Appendix Chapter 1
-```
-Add contents to ``Apndx.tex`` file under `Appendix` folder.
+### 1. Table Formatting
+- **Do NOT use `\resizebox`** to force tables to fit the `\textwidth`. It causes unpredictable margin overflows, font distortion, and vertical misalignment.
+- **Instead**, strictly define exact column widths using `p{...cm}` in the tabular environment (e.g., `\begin{tabular}{|p{2.5cm}|p{4cm}|...}`). Use standard `\centering` within the `table` environment to center the table within the margins.
 
-## To access old Project template with old Logos
-You can access the older versions from the side pannel under Releases. You might probably use `v3.6` `Version 3.6 (31 Jan 2024)` release.
+### 2. Handling Citations
+- Citations are written as `\cite{ref1,ref2}`.
+- If using Python scripts or automated tools to inject citations, be extremely careful with backslash escaping (`\c` is not a valid escape sequence in Python). Ensure the literal `\cite` is printed to the `.tex` file without double-escaping.
 
-![giit_release](https://github.com/rvce-latex/Project-Report-Template/assets/85557733/9a427471-7c07-4df6-a5d1-0da7b9ecf40c)
+### 3. Blank Pages & Glossaries
+- Empty `\printglossary` or `\printglossaries` commands in `Main.tex` will generate unwanted blank pages in the final PDF. Keep these commented out unless a fully populated glossary is explicitly added to the document.
 
+### 4. Code Blocks
+- Code snippets in the Appendix should use the `lstlisting` environment. Make sure comments within the code are stripped or heavily minimized if they cause layout or overflow issues.
 
-
-## Further Help
-For further help regarding the setup, follows the [Wiki link](https://github.com/rvce-latex/Project-Report-Template/wiki).
-
----
->>[Pretty old videos] Commands used might have got changed:
-
->Use the youtube play list to know how to use this template: https://youtube.com/playlist?list=PLXnaDu1KFWvaIh-jh9ME8mp5ca-PEtch4
----
+### 5. AI Generated Images
+- All `WhatsApp Image...` files in the `Figures/` directory correspond to specific diagrams and dashboards. When editing `.tex` files, do not assign random images; refer strictly to the exact file names that correspond to the desired visual content.
