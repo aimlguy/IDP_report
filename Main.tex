@@ -4,9 +4,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Document settings
-\title{AI-Driven Digital Twin for Smart Energy Optimization in MSMEs Using IoT-Based Energy Analytics}
+\title{EnerVision: AI-Powered Digital Twin for Predictive Energy Intelligence and Sustainable Manufacturing}
 \subCode{XX367P}
-% Note: While using the template for IDP, the \Department cmd is not used (discarded automatically) in IDP. The Certificate page uses \guideDeptA[]{} cmd in IDP.
+% Note: While using the template for IDP, the \Department cmd is not used (discarded automatically) in IDP. The Certificate page uses \guideDeptA[ECE]{Electronics and Communication Engineering} cmd in IDP.
 \Department[ECE]{Electronics and Communication Engineering}
 \academicYear{2024-25}
 
@@ -56,7 +56,7 @@
 % Have to give both short form and long of Department Name
 \guideNameA{Dr. SriVidya P}
 \guideDesignationA{Project Guide / Academic Supervisor}
-\guideDeptA[AIML]{Artificial Intelligence & Machine Learning}
+\guideDeptA[ECE]{Electronics and Communication Engineering}
 \guideOrgA{RV College of Engineering}
 
 %% External Guides (Don't Use for Internship; U have '\projectCoOrdNameA{}' for Internship) %%
@@ -130,6 +130,8 @@
 %%%%%%%%%%%%%%%%WaterMark%%%%%%%%%%%%%%%%%%%%%
 %% Use it only after Biblatex
 %% Uncomment the following lines for watermarking and run it more than 2 times for proper alignment
+\usepackage{graphicx} % Allows including images
+\usepackage{listings}
 \usepackage{background}
 \backgroundsetup{scale=1, angle=0, firstpage = false, opacity=0.5, contents={
 \begin{tikzpicture}[remember picture, overlay]
@@ -180,10 +182,10 @@
 \begin{spacing}{1.5}\clearpage\addcontentsline{toc}{chapter}{\listtablename}
 	\listoftables	
 \end{spacing}
-\newpage
-\printglossary[type=\acronymtype, title= Abbreviations, toctitle=Abbreviations]
-\newpage
-\printglossary[type=symbolList, title= List of Symbols, toctitle=List of Symbols]
+%\newpage
+%\printglossary[type=\acronymtype, title= Abbreviations, toctitle=Abbreviations]
+%\newpage
+%\printglossary[type=symbolList, title= List of Symbols, toctitle=List of Symbols]
 \fi
 \mainmatter
 \pagestyle{mplain}

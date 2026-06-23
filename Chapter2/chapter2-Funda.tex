@@ -1,48 +1,94 @@
-\chapter{Theory and Fundamentals}
+\chapter{Theory and Fundamentals of AI-Based Energy Digital Twin}
 \label{chap:theory}
 
-\section{MSME Energy Systems}
-Industrial energy consumption is structurally divided into base load and production load. The base load constitutes electricity consumed by baseline systems (e.g., lighting, HVAC, and standby machinery), remaining constant regardless of output. The production load fluctuates directly with manufacturing volume, driven primarily by high-draw inductive motors and thermal elements. In regions with unstable power grids, MSMEs rely heavily on localized Diesel Generators (DG), which carry high operational costs and severe carbon penalties \cite{Zhang2021}. Managing total energy consumption is critical for controlling factory efficiency.
+\section{Internet of Things Based Energy Monitoring}
+The Internet of Things refers to the connection of physical devices, sensors and machines through the internet for data collection and communication. In industrial energy monitoring, IoT devices can measure voltage, current, power, energy consumption and machine operating status.
 
-\section{IoT-based Monitoring Architecture}
-The Internet of Things (IoT) provides the sensing infrastructure required to digitize physical environments \cite{AlFuqaha2015}. Standard meters track cumulative usage over 30 days. In contrast, edge-device IoT sensors log high-frequency electrical vectors: instantaneous voltage ($V$), running current ($I$), active power ($P = VI\cos\theta$), and frequency distributions. Transmitting this array to cloud-based aggregators enables proactive management, allowing manufacturers to observe sudden power imbalances and inefficient machinery in real time.
+In an MSME, IoT-based energy monitoring can be used to collect real-time energy data from machines, panels and meters. This data can be sent to a cloud platform or local server for storage and analysis. IoT helps industries move from manual readings to automated data collection.
 
-\section{Digital Twin Theory}
-A Digital Twin is defined as a virtual, dynamic replica of a physical process \cite{Kritzinger2018}. Within the context of energy management, the twin utilizes historical data matrices to mathematically encapsulate the exact behavior of an MSME facility. 
+The main advantages of IoT-based energy monitoring are:
+\begin{enumerate}
+    \item Real-time measurement of energy parameters.
+    \item Faster identification of abnormal energy consumption.
+    \item Reduced manual work and human error.
+    \item Better visibility of machine-wise and process-wise energy usage.
+    \item Support for AI-based prediction and optimization.
+\end{enumerate}
 
-\begin{figure}[h]
+\section{Digital Twin Technology}
+A digital twin is a virtual model of a real physical system. It uses data from the real system to represent, analyze and predict the behavior of the physical system. In this project, the physical system is the MSME energy system, and the digital twin is a mathematical and computational model that predicts energy demand and simulates energy-saving scenarios.
+
+A digital twin has three main parts:
+\begin{enumerate}
+    \item Physical System: The actual industry or manufacturing process.
+    \item Data Connection: Energy and production data collected through sensors or records.
+    \item Virtual Model: A model that analyzes the data and predicts system behavior.
+\end{enumerate}
+
+In this project, the digital twin uses production output, grid energy and diesel-generator energy to estimate total energy consumption, cost and emissions. It allows users to test operational decisions virtually before applying them in the real plant.
+
+\begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}[
-        box/.style={draw, rectangle, minimum height=1.5cm, minimum width=3cm, align=center, thick, fill=blue!5},
-        arrow/.style={->, thick}
-    ]
-        \node[box] (physical) at (0,0) {Physical Factory\\(Sensors \& Meters)};
-        \node[box] (data) at (5,0) {Cloud Database\\(Data Aggregation)};
-        \node[box] (twin) at (10,0) {Digital Twin\\(MATLAB Model)};
-        \node[box] (opt) at (10,-3) {Optimization\\(Scenario Simulation)};
-        
-        \draw[arrow] (physical) -- (data) node[midway, above] {Raw Data};
-        \draw[arrow] (data) -- (twin) node[midway, above] {Processed Data};
-        \draw[arrow] (twin) -- (opt) node[midway, right] {Predictive Output};
-        \draw[arrow, dashed] (opt) -| (physical) node[midway, below] {Prescriptive Feedback};
-    \end{tikzpicture}
-    \caption{Digital Twin Feedback Loop \cite{Tao2019}}
-    \label{fig:dt_block}
+    \includegraphics[width=0.8\linewidth]{Figures/digital_twin_factory.png}
+    \caption{Digital Twin Concept for Industrial Energy Systems}
+    \label{fig:digital_twin_concept}
 \end{figure}
 
-As illustrated in Figure \ref{fig:dt_block}, the twin enables simulated testing. Administrators can introduce theoretical changes---such as substituting power sources or isolating production batches---into the model to calculate exact financial outcomes without altering the actual physical plant \cite{Lu2020}.
+\section{Machine Learning for Energy Prediction}
+Machine learning is a branch of artificial intelligence that allows systems to learn patterns from data and make predictions. Energy consumption in industries is affected by production quantity, operating time, machine load, day of operation and generator usage. Machine learning can identify these patterns and predict future demand.
 
-\section{Machine Learning Prediction Models}
-Artificial Intelligence employs optimization methodologies to map input operations to output consumption. Time-series industrial data inherently contains thermodynamic lag and mechanical efficiency loss, which raw linear models fail to capture \cite{Zhang2020}.
+The machine learning methods used in this project are:
+\begin{enumerate}
+    \item Regression Modeling: Linear and quadratic regression are used to model the relationship between production and energy consumption.
+    \item Random Forest: Random Forest is an ensemble learning method that uses multiple decision trees. It is used for energy demand prediction and diesel-generator activation classification.
+    \item XGBoost: XGBoost is a gradient boosting technique. It is used to support generator activation prediction using previous energy values.
+    \item LSTM: Long Short-Term Memory is a deep learning model used for time-series forecasting. It predicts next-day energy demand using previous energy consumption data.
+\end{enumerate}
 
-\textbf{Linear Regression:} Captures pure proportional scaling but fails at performance saturation boundaries. Equation: $y = w_1x + b$, where $x$ represents production output.
+\section{Energy Performance Indicators}
+Energy Performance Indicators are used to measure and compare the energy performance of the MSME. The main KPIs used in this project are:
 
-\textbf{Polynomial (Quadratic) Regression:} Handles structural efficiency arcs inherent to heavy machinery, proving significantly more accurate for manufacturing plants. Equation:
-$$ \hat{y} = \theta_2 x^2 + \theta_1 x + \theta_0 $$
-where $\hat{y}$ is predicted energy, $x$ is production volume, and $\theta_n$ represent trained machine weights capturing baseline usage and performance decay \cite{Tao2018}.
+\begin{table}[htbp]
+\centering
+\caption{Key Performance Indicators}
+\label{tab:kpi_list}
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{KPI} & \textbf{Meaning} \\
+\hline
+Total Energy & Sum of grid energy and DG energy \\
+Energy Efficiency & Production output per unit energy consumed \\
+Energy Per Unit & Energy consumed per unit of production \\
+Operating Cost & Cost of grid energy and DG energy \\
+CO2 Emissions & Emissions due to diesel-generator usage \\
+DG Share & Percentage of total energy supplied by diesel generator \\
+Grid Utilization & Amount of demand handled by grid supply \\
+\hline
+\end{tabular}
+\end{table}
 
-\section{KPI and Sustainability Metrics}
-Key Performance Indicators (KPIs) translate electrical physics into business intelligence.
-Energy Per Unit (EPU) is the fundamental industrial metric, calculated as:
-$$ EPU = \frac{E_{total}}{\text{Production Volume}} $$
-Lower EPU indicates superior manufacturing lean-efficiency. Furthermore, Carbon Dioxide emissions estimations (typically scaled at $0.8$ kg CO$_2$ per kWh of diesel energy) provide necessary feedback regarding environmental compliance and footprint monitoring.
+These KPIs help in understanding how efficiently the MSME uses energy and where savings are possible.
+
+\section{Use of Acronyms and Glossaries}
+\begin{table}[htbp]
+\centering
+\caption{Acronyms and Glossaries}
+\label{tab:acronyms}
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Acronym} & \textbf{Full Form} & \textbf{Meaning} \\
+\hline
+AI & Artificial Intelligence & Technology used for prediction and decision-making \\
+IoT & Internet of Things & Sensor-based data collection and communication \\
+MSME & Micro, Small and Medium Enterprise & Small and medium industrial unit \\
+DG & Diesel Generator & Backup power source used during grid limitation \\
+KPI & Key Performance Indicator & Measurable performance value \\
+EPU & Energy Per Unit & Energy consumed per unit production \\
+RMSE & Root Mean Squared Error & Prediction error metric \\
+R2 & Coefficient of Determination & Model fit metric \\
+RF & Random Forest & Machine learning model using decision trees \\
+LSTM & Long Short-Term Memory & Time-series forecasting model \\
+XGBoost & Extreme Gradient Boosting & Advanced machine learning classifier \\
+\hline
+\end{tabular}
+\end{table}

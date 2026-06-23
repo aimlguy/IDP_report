@@ -1,59 +1,11 @@
-\addcontentsline{toc}{chapter}{Abstract}\vspace{-1cm}
-%Border
-\begin{tikzpicture}[remember picture, overlay]
-  \draw[line width = 4pt] ($(current page.north west) + (0.75in,-0.75in)$) rectangle ($(current page.south east) + (-0.75in,0.75in)$);
-\end{tikzpicture}
+\begin{abstract}
+Micro, Small and Medium Enterprises are important contributors to industrial development, but many MSMEs face high energy consumption, high electricity cost, diesel-generator dependency and limited access to intelligent energy management systems. Traditional energy monitoring systems mainly display past or present readings and do not provide prediction, optimization or decision support. Because of this, industries may face energy wastage, peak-load penalties and unnecessary carbon dioxide emissions.
 
-Micro, Small and Medium Enterprises (MSMEs) face significant energy inefficiency, marked by high operating costs, substantial dependency on diesel generators (DG), and a lack of predictive monitoring and intelligent optimization frameworks. The absence of digital observability and AI-driven insights leads to considerable energy wastage, peak demand penalties, and uncontrolled environmental footprints. This project addresses these energy challenges by developing an AI-driven digital twin tailored for MSME smart energy optimization. 
+This project presents an AI-driven digital twin for smart energy optimization in MSMEs using IoT-based energy analytics. The system uses historical industrial energy data consisting of production output, grid energy and diesel-generator energy. The data is cleaned and processed using MATLAB, and important Key Performance Indicators such as total energy consumption, Energy Per Unit, energy efficiency, operating cost, generator dependency and carbon dioxide emissions are calculated.
 
-The methodology leverages a historical excel dataset, subsequently subjected to MATLAB preprocessing and comprehensive Key Performance Indicator (KPI) computation. Regression modeling constructs the mathematical relationships between production output and energy consumption, establishing the foundation for a digital twin simulation. Through iterative scenario analysis, the virtual model determines optimal load schedules without risk to actual physical production lines, effectively mitigating operational uncertainties.
+Linear and quadratic regression models are developed to study the relationship between production and total energy consumption. The quadratic and linear regression models are selected as the optimal modeling approach because they provide stable coefficients of determination without overfitting the limited dataset. While complex machine learning techniques such as Random Forest, XGBoost and LSTM forecasting were evaluated, they were excluded from the final digital twin due to severe overfitting and test-leakage caused by the restricted sample size (59 records).
 
-Experimental evaluation comprised 59 valid observations. Findings establish that the quadratic regression model outperformed the linear model, providing highly accurate prediction capability for industrial energy demand. Through digital twin simulations, results demonstrate that DG reduction substantially lowers both CO\addcontentsline{toc}{chapter}{Abstract}\vspace{-1cm}
-%Border
-\begin{tikzpicture}[remember picture, overlay]
-  \draw[line width = 4pt] ($(current page.north west) + (0.75in,-0.75in)$) rectangle ($(current page.south east) + (-0.75in,0.75in)$);
-\end{tikzpicture}
+A digital twin simulation engine is developed to test different operational scenarios without disturbing the real manufacturing system. The scenarios include mathematical energy baseline bounding, diesel-generator reduction, production scaling, base-load reduction and peak-load avoidance. A dashboard-based decision support system is proposed to display KPIs, energy trends, anomaly alerts, load scheduling recommendations and what-if simulation results.
 
-Micro, Small and Medium Enterprises (MSMEs) face significant energy inefficiency, marked by high operating costs, substantial dependency on diesel generators (DG), and a lack of predictive monitoring and intelligent optimization frameworks. The absence of digital observability and AI-driven insights leads to considerable energy wastage, peak demand penalties, and uncontrolled environmental footprints. This project addresses these energy challenges by developing an AI-driven digital twin tailored for MSME smart energy optimization. 
-
-The methodology leverages a historical excel dataset, subsequently subjected to MATLAB preprocessing and comprehensive Key Performance Indicator (KPI) computation. Regression modeling constructs the mathematical relationships between production output and energy consumption, establishing the foundation for a digital twin simulation. Through iterative scenario analysis, the virtual model determines optimal load schedules without risk to actual physical production lines, effectively mitigating operational uncertainties.
-
-Experimental evaluation CO\addcontentsline{toc}{chapter}{Abstract}\vspace{-1cm}
-%Border
-\begin{tikzpicture}[remember picture, overlay]
-  \draw[line width = 4pt] ($(current page.north west) + (0.75in,-0.75in)$) rectangle ($(current page.south east) + (-0.75in,0.75in)$);
-\end{tikzpicture}
-
-Micro, Small and Medium Enterprises (MSMEs) face significant energy inefficiency, marked by high operating costs, substantial dependency on diesel generators (DG), and a lack of predictive monitoring and intelligent optimization frameworks. The absence of digital observability and AI-driven insights leads to considerable energy wastage, peak demand penalties, and uncontrolled environmental footprints. This project addresses these energy challenges by developing an AI-driven digital twin tailored for MSME smart energy optimization. 
-
-The methodology leverages a historical excel dataset, subsequently subjected to MATLAB preprocessing and comprehensive Key Performance Indicator (KPI) computation. Regression modeling constructs the mathematical relationships between production output and energy consumption, establishing the foundation for a digital twin simulation. Through iterative scenario analysis, the virtual model determines optimal load schedules without risk to actual physical production lines, effectively mitigating operational uncertainties.
-
-Experimental evaluation comprised 59 valid observations. Findings establish that the quadratic regression model outperformed the linear model, providing highly accurate prediction capability for industrial energy demand. Through digital twin simulations, results demonstrate that DG reduction substantially lowers both CO\addcontentsline{toc}{chapter}{Abstract}\vspace{-1cm}
-%Border
-\begin{tikzpicture}[remember picture, overlay]
-  \draw[line width = 4pt] ($(current page.north west) + (0.75in,-0.75in)$) rectangle ($(current page.south east) + (-0.75in,0.75in)$);
-\end{tikzpicture}
-
-Micro, Small and Medium Enterprises (MSMEs) face significant energy inefficiency, marked by high operating costs, substantial dependency on diesel generators (DG), and a lack of predictive monitoring and intelligent optimization frameworks. The absence of digital observability and AI-driven insights leads to considerable energy wastage, peak demand penalties, and uncontrolled environmental footprints. This project addresses these energy challenges by developing an AI-driven digital twin tailored for MSME smart energy optimization. 
-
-The methodology leverages a historical excel dataset, subsequently subjected to MATLAB preprocessing and comprehensive Key Performance Indicator (KPI) computation. Regression modeling constructs the mathematical relationships between production output and energy consumption, establishing the foundation for a digital twin simulation. Through iterative scenario analysis, the virtual model determines optimal load schedules without risk to actual physical production lines, effectively mitigating operational uncertainties.
-
-Experimental evaluation comprised 59 valid observations. Findings establish that the quadratic regression model outperformed the linear model, providing highly accurate prediction capability for industrial energy demand. Through digital twin simulations, results demonstrate that DG reduction substantially lowers both COâ‚‚ emissions and operational costs. Furthermore, base load reduction yielded the highest absolute economic savings, while peak load operations effectively minimized the Energy Per Unit (EPU), optimizing overall production cost-efficiency.
-
-Future enhancements include complete IoT sensor integration and a live cloud dashboard for automated anomaly detection. The proposed architecture forms a robust AI optimization engine, facilitating continuous, prescriptive action within industrial settings, ultimately standardizing sustainable energy management across the MSME sector.
-
-\pagebreak2$‚ emissions and operational costs. Furthermore, base load reduction yielded the highest absolute economic savings, while peak load operations effectively minimized the Energy Per Unit (EPU), optimizing overall production cost-efficiency.
-
-Future enhancements include complete IoT sensor integration and a live cloud dashboard for automated anomaly detection. The proposed architecture forms a robust AI optimization engine, facilitating continuous, prescriptive action within industrial settings, ultimately standardizing sustainable energy management across the MSME sector.
-
-\pagebreak
-2$ emissions and operational costs. Furthermore, base load reduction yielded the highest absolute economic savings, while peak load operations effectively minimized the Energy Per Unit (EPU), optimizing overall production cost-efficiency.
-
-Future enhancements include complete IoT sensor integration and a live cloud dashboard for automated anomaly detection. The proposed architecture forms a robust AI optimization engine, facilitating continuous, prescriptive action within industrial settings, ultimately standardizing sustainable energy management across the MSME sector.
-
-\pagebreak2$‚ emissions and operational costs. Furthermore, base load reduction yielded the highest absolute economic savings, while peak load operations effectively minimized the Energy Per Unit (EPU), optimizing overall production cost-efficiency.
-
-Future enhancements include complete IoT sensor integration and a live cloud dashboard for automated anomaly detection. The proposed architecture forms a robust AI optimization engine, facilitating continuous, prescriptive action within industrial settings, ultimately standardizing sustainable energy management across the MSME sector.
-
-\pagebreak
-
+The results show that the AI-driven digital twin can support MSMEs in reducing energy cost, improving energy efficiency, decreasing diesel-generator usage and supporting sustainable industrial operation. The project demonstrates how Industry 4.0 technologies such as IoT, AI and digital twins can be used as a low-cost and scalable solution for smart energy management in MSMEs.
+\end{abstract}

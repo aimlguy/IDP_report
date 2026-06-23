@@ -1,62 +1,121 @@
-\chapter{Introduction}
+\chapter{Introduction to AI-Driven Digital Twin for MSME Energy Optimization}
 \label{chap:intro}
 
-\section{Background}
-\subsection{MSMEs and Energy Systems}
-Micro, Small and Medium Enterprises (MSMEs) significantly contribute to manufacturing output and employment. However, these enterprises frequently experience high operating costs driven by inefficient machinery, outdated electrical infrastructure, and dependence on expensive diesel generators (DG). Energy inefficiency directly affects an MSME's profitability and environmental footprint. Therefore, optimizing energy usage is essential for MSME sustainability.
+\section{Introduction}
+Industrial energy management has become an important part of modern manufacturing because energy cost directly affects production cost and profit. Micro, Small and Medium Enterprises often operate with limited resources, older machinery and basic monitoring systems \cite{ref21,ref22,ref23,ref24,ref25,ref26,ref27}. Many MSMEs depend on both grid electricity and diesel generators. Grid electricity is cheaper, but diesel-generator power is expensive and produces higher carbon dioxide emissions \cite{ref28,ref29,ref30,ref31,ref32}.
 
-Traditional monitoring systems, such as basic static electricity meters, provide reactive data. They lack capabilities for anomaly detection, predictive load forecasting, and automated process optimization. The modern industrial landscape requires a shift from reactive observation to predictive intelligence.
+Traditional energy monitoring systems mainly show present or past energy consumption. They do not predict future energy demand, detect abnormal usage or suggest better operating schedules. This creates a need for intelligent systems that can collect energy data, analyze it and support decision-making.
+
+Industry 4.0 technologies such as the Internet of Things, Artificial Intelligence and Digital Twin technology provide a solution to this problem. IoT can collect real-time energy data from machines and meters. A digital twin can create a virtual model of the industrial energy system. AI and machine learning can predict future consumption, detect abnormal patterns and recommend energy-saving actions.
+
+In this project, an AI-driven digital twin is developed for smart energy optimization in MSMEs. The system uses production and energy data to predict total energy consumption, analyze generator usage, calculate cost and emissions, and simulate different energy-saving scenarios. The aim is to help MSMEs reduce energy wastage, lower operating cost and improve sustainability.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/image.png}
+    \caption{Industry 4.0 Based Energy Management Concept}
+    \label{fig:energy_management_concept}
+\end{figure}
 
 \section{Literature Review}
-Extensive research defines the role of data analytics in industrial energy. While many studies address peak load management theoretically \cite{Tao2019, Kritzinger2018}, few deliver combined intelligence across IoT sensing, Digital Twin integration, and AI-driven predictive modeling specifically scaled for MSMEs. The literature reveals a gap in accessible, low-cost modeling frameworks for small-scale physical plants. Detailed exploration of existing methodologies and theoretical grounding is provided in Chapter 2.
+Digital twin technology has been widely studied for smart manufacturing and industrial energy management. Earlier studies explain how digital twins create virtual models of real systems and help in monitoring, simulation and optimization. Tao et al. discussed the use of digital twins in industry and explained their importance in smart manufacturing. Kritzinger et al. reviewed digital twin applications in manufacturing and described different types of digital twin models.
 
-\begin{table}[h]
+Research on energy-efficient digital twins shows that virtual models can be used to analyze production behavior and energy consumption under different operating conditions. Studies on IoT-based energy monitoring explain how sensors, smart meters and cloud dashboards can help industries monitor voltage, current, power and energy consumption.
+
+Machine learning has also been used for energy prediction. Regression models, Random Forest, XGBoost and deep learning models such as LSTM can predict future energy demand from historical data. Anomaly detection methods can identify abnormal energy usage caused by machine faults, sudden load increase or inefficient operation.
+
+However, many existing systems focus only on one part of the problem. Some systems only monitor energy, while others only predict demand. Many studies are designed for large industries and may not be suitable for MSMEs. There is a need for a low-cost integrated framework that combines data collection, KPI analysis, prediction, scenario simulation, anomaly detection and dashboard-based decision support.
+
+\begin{table}[h!]
 \centering
 \caption{Literature Survey Summary}
-\label{tab:litsurvey}
-\begin{tabular}{|p{3cm}|p{5cm}|p{5cm}|}
+\label{tab:literature}
+\begin{tabular}{|c|p{2.5cm}|c|p{3.0cm}|p{3.5cm}|p{3.0cm}|}
 \hline
-\textbf{Domain} & \textbf{Current Approach} & \textbf{Proposed Enhancement} \\
+\textbf{Sl. No.} & \textbf{Author} & \textbf{Year} & \textbf{Title} & \textbf{Summary} & \textbf{Future Scope} \\
 \hline
-IoT Monitoring & Reactive monthly billing analysis \cite{AlFuqaha2015} & Proactive high-frequency load sensing \\
-Digital Twin & Large-scale SCADA only \cite{Uhlemann2017} & Accessible, scalable MSME modeling \\
-AI Prediction & Standard linear trending \cite{Zhang2020} & High-precision polynomial regression \\
-Optimization & Manual machine switching \cite{Li2023} & Automated scenario simulation \\
+1 & M. Soori et al. & 2023 & Digital Twin for Smart Manufacturing & Reviewed digital twin technology for monitoring and improving manufacturing systems. & Integration with AI and real-time IoT data can improve automated optimization. \\
+\hline
+2 & H. Li et al. & 2023 & Energy Efficient Digital Twin Framework & Proposed a digital twin framework for batch manufacturing and energy analysis. & Real-time IoT data can improve prediction accuracy. \\
+\hline
+3 & Y. Chen et al. & 2025 & Digital Twin Decision Making Using Deep Neural Networks & Used deep neural networks with digital twins for intelligent industrial decisions. & Better synchronization between IoT data and digital twin models is needed. \\
+\hline
+4 & S. Li et al. & 2025 & Digital Twin of Multiple Energy Hub Systems & Developed a digital twin for energy hub systems and energy-flow simulation. & AI integration can improve energy scheduling. \\
+\hline
+5 & IEEE Research Group & 2023 & Digital Twins for Energy Systems & Explained digital twin applications in energy systems. & Cost-effective platforms are needed for MSMEs. \\
+\hline
+6 & D. Shrivastava et al. & 2025 & IoT Driven Neuro-Fuzzy Deep Learning for Energy Optimization & Combined IoT data and AI models for energy optimization. & Can be applied to industrial manufacturing systems. \\
+\hline
+7 & A. Muthu et al. & 2023 & Energy Prediction in IoT Systems Using ML & Used IoT data and machine learning for energy prediction. & Can be combined with digital twin simulations. \\
+\hline
+8 & EnerSense Authors & 2024 & IoT-Enhanced ML for Energy Optimization & Proposed smart meter-based energy forecasting. & Can be extended to industrial digital twin systems. \\
+\hline
+9 & A. A. Mirani et al. & 2024 & Industrial IoT-Based Energy Monitoring & Used edge-based IoT system for factory energy monitoring. & ML can be added for prediction and abnormal usage detection. \\
+\hline
+10 & IJISRT Authors & 2024 & Periodic Energy Optimization Using IoT and ML & Developed IoT and ML model for energy-saving patterns. & Automated control and real-time dashboards can be added. \\
 \hline
 \end{tabular}
 \end{table}
 
-\section{Motivation}
-Industries face an energy pricing crisis coupled with strict carbon compliance mandates. Large enterprises leverage costly digital optimization platforms, whereas MSMEs struggle with budget constraints. Implementing a scalable, AI-driven digital twin empowers MSMEs to simulate consumption reduction strategies digitally, preventing costly physical trials and reducing energy waste substantially.
-
-\section{Problem Statement}
-Rising energy demand in MSMEs leads to inflated operational costs and inefficient power utilization. Traditional systems fail to provide actionable intelligence. There is a verified need to establish an AI-based digital twin that monitors energy in real-time, predicts future load requirements accurately, and simulates optimization scenarios to lower both specific energy consumption and carbon emissions.
-
-\section{Objectives}
-The primary objectives of this project are:
+\subsection{Summary of Literature Gap}
 \begin{enumerate}
-    \item \textbf{Data Acquisition Framework:} Structure an analytical foundation utilizing daily electrical measurements (grid load, generator load, output units).
-    \item \textbf{Digital Twin Modeling:} Construct a virtual mathematical replica of the physical plant capable of modeling dynamic production-energy relationships.
-    \item \textbf{AI Predictive Analytics:} Develop polynomial regression models capable of forecasting energy demand with high accuracy ($R^2 > 0.95$).
-    \item \textbf{Intelligent Optimization:} Execute simulation scenarios focused on base-load reduction and peak shaving to calculate precise financial savings and emission reductions.
+    \item Most digital twin systems are designed for large industries and are not cost-effective for MSMEs.
+    \item Many systems provide monitoring but do not include prediction and optimization.
+    \item Existing studies often focus on a single technique such as regression, ML prediction or anomaly detection.
+    \item Few systems combine energy KPIs, machine learning, generator-usage prediction, scenario simulation and dashboard support in one platform.
+    \item MSMEs require a simple, low-cost and interpretable solution for practical energy management.
+    \item This project addresses these gaps by developing an integrated AI-driven digital twin framework for MSME energy optimization.
 \end{enumerate}
 
-\section{Methodology}
-The workflow begins with preprocessing a historical industrial dataset containing 59 daily observations. MATLAB is utilized to clean the data and extract Key Performance Indicators (KPIs), specifically Total Energy and Energy Per Unit (EPU). Two primary mathematical models (Linear and Quadratic Regression) are trained to predict the relationship between production output and energy demand. The superior model acts as the core of the digital twin. Finally, the virtual environment runs optimization scenarios (such as removing DG dependence) to quantify potential reductions.
+\section{Motivation}
+The motivation for this project comes from the need to reduce energy wastage and operating cost in MSMEs. Many small and medium manufacturing units use diesel generators during peak-load periods or grid limitations. Diesel-generator energy is more expensive and produces higher emissions than grid energy. If energy demand can be predicted in advance, the factory can shift loads, reduce generator dependency and avoid unnecessary cost \cite{ref33,ref34,ref35,ref36,ref37,ref38,ref39,ref40}.
 
-\section{Scope and Constraints}
-\textbf{Scope:}
-\begin{itemize}
-    \item Predictive analysis of specific energy consumption.
-    \item Mathematical simulation for cost reduction strategies.
-    \item Prototype development using MATLAB data processing algorithms.
-\end{itemize}
+A digital twin allows the industry to test operational changes virtually before applying them in the real plant. This reduces risk and helps managers take better decisions. By combining AI, IoT-based data and dashboard visualization, MSMEs can move from simple energy monitoring to intelligent energy management.
 
-\textbf{Constraints:}
-\begin{itemize}
-    \item The model relies strictly on a historical dataset of 59 sample days; physical IoT sensors are not currently deployed on a live testbed.
-    \item Dataset limitations restrict long-term seasonal anomaly evaluations.
-\end{itemize}
+\section{Problem Statement}
+The increasing energy demand in MSMEs leads to higher costs, inefficient energy usage and higher diesel-generator dependency. Traditional monitoring systems lack advanced analysis, prediction and optimization capability. They do not forecast future load, identify abnormal consumption or simulate the effect of operational changes before implementation.
 
-\section{Organization of Report}
-Chapter 1 covers the background, problem, and methodology. Chapter 2 outlines theoretical fundamentals regarding Digital Twins and regression models. Chapter 3 addresses system design, dataset parameters, and the detailed mathematical framework. Chapter 4 provides the implementation steps, error validation, and accuracy plots. Chapter 5 discusses the concrete optimization scenario results and visual dashboards. Finally, Chapter 6 summarizes the findings and outlines the future scope.
+Therefore, there is a need to develop an AI-driven digital twin system that can analyze production and energy data, predict future energy demand, identify energy-saving opportunities, reduce diesel-generator usage and provide real-time decision support for MSME energy optimization.
+
+\section{Objectives}
+\begin{enumerate}
+    \item To collect and structure MSME energy data such as production output, grid energy and diesel-generator energy.
+    \item To calculate energy performance indicators such as total energy, Energy Per Unit, efficiency, cost, carbon dioxide emissions and generator dependency.
+    \item To develop regression-based mathematical models for predicting energy consumption from production output.
+    \item To implement machine learning models for energy demand prediction and diesel-generator activation alert.
+    \item To develop a digital twin simulation framework for testing what-if scenarios such as DG reduction, production increase and base-load reduction.
+    \item To design a dashboard-based decision support system for visualizing KPIs, forecasts, anomalies and load scheduling recommendations.
+    \item To support sustainable industrial operation by reducing energy cost and carbon emissions.
+\end{enumerate}
+
+\section{Brief Methodology of the Project}
+The project methodology starts with collecting historical MSME energy data. The dataset contains daily production values, grid energy consumption and diesel-generator energy consumption. The data is imported into MATLAB and cleaned by removing missing, negative and invalid values.
+
+After preprocessing, KPIs are calculated to understand the energy performance of the system. Linear and quadratic regression models are developed to predict energy consumption based on production. The better model is selected using $R^2$ and RMSE values.
+
+Random Forest, XGBoost and an LSTM network are implemented and BENCHMARKED for energy prediction. The Random Forest initially showed $R^2 = 0.94$ but was discarded due to test leakage (Production was linearly dependent on total energy). XGBoost alerting and LSTM forecasting were also excluded from the final twin due to insufficient data points (only 59 records, 6 DG-active days) making them unreliable. Therefore, Standard Linear and Quadratic Regression are selected as the optimal, mathematically sound predictive core.
+
+A digital twin simulation engine is then developed. It simulates different operating scenarios and calculates their effect on energy, cost and emissions. Finally, a dashboard interface is proposed to display KPIs, trends, predictions, what-if results and anomaly alerts.
+
+\section{Assumptions Made / Constraints of the Project}
+\begin{enumerate}
+    \item The analysis is based on historical production and energy data.
+    \item Grid energy tariff is assumed as Rs. 6 per kWh.
+    \item Diesel-generator tariff is assumed as Rs. 15 per kWh.
+    \item Diesel-generator CO2 emission factor is taken as $\alpha = 0.8$ kg CO2 per kWh (IPCC). The grid carbon-intensity factor is taken as $\gamma = 0.71$ kg CO2 per kWh, from the Central Electricity Authority (CEA) CO2 Baseline Database. Total CO2 therefore accounts for BOTH grid and generator energy.
+    \item The safe grid limit is estimated from the historical maximum grid energy with a safety margin.
+    \item The current implementation uses spreadsheet-based data and not live IoT sensor data.
+    \item The dataset is limited to a short observation period, so further validation is required for large-scale deployment.
+    \item The system does not currently include detailed power-quality parameters such as voltage imbalance, harmonics and power factor.
+\end{enumerate}
+
+\section{Organization of the Report}
+\begin{enumerate}
+    \item Chapter 1 introduces the project, literature survey, motivation, problem statement, objectives and methodology.
+    \item Chapter 2 explains the theory and fundamentals of IoT, digital twin technology, machine learning and energy KPIs.
+    \item Chapter 3 describes the system analysis and design of the proposed digital twin framework.
+    \item Chapter 4 explains the implementation of the system using MATLAB, machine learning models and dashboard design.
+    \item Chapter 5 presents the results and discussion obtained from regression, simulation and dashboard analysis.
+    \item Chapter 6 gives the conclusion, future scope and learning outcomes of the project.
+    \item The appendix includes the main code structure used for implementation.
+\end{enumerate}

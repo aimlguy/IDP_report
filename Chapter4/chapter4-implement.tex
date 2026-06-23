@@ -1,131 +1,99 @@
-\chapter{Implementation}
+\chapter{Implementation of AI-Driven Digital Twin for MSME Energy Optimization}
 \label{chap:implement}
 
-\section{MATLAB Implementation}
-Algorithms were deployed within the MATLAB compute environment due to its robust statistical toolbox properties. The implementation ingested the strictly processed 59-sample array, performing vector-wise energy summations to generate daily baseline mappings. Through this interface, continuous simulation loops could rapidly test varying coefficients.
+\section{Tools and Technologies Used}
+\begin{table}[htbp]
+\centering
+\caption{Tools and Technologies Used}
+\label{tab:tools}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Sl. No.} & \textbf{Tool / Technique} & \textbf{Description} & \textbf{Purpose} & \textbf{Output Achieved} \\
+\hline
+1 & MATLAB & Numerical computing software & Data analysis, modeling, simulation and visualization & Prediction models, KPI values and graphs \\
+\hline
+2 & Microsoft Excel & Spreadsheet software & Storing production and energy data & Structured input dataset \\
+\hline
+3 & Quadratic Regression & Nonlinear regression model & Predict energy consumption from production & Better prediction model \\
+\hline
+4 & R2 and RMSE & Model validation metrics & Compare prediction models & Best model selection \\
+\hline
+5 & Random Forest & Machine learning model & Energy demand prediction and DG classification & Improved prediction \\
+\hline
+6 & XGBoost & Boosting-based classifier & DG activation alert & Additional alert confidence \\
+\hline
+7 & LSTM & Deep learning forecasting model & Next-day energy prediction & AI forecast output \\
+\hline
+8 & Dashboard & Visualization interface & Decision support & KPI cards, graphs and what-if results \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\section{Data Import and Cleaning}
+The dataset is imported from Excel into MATLAB. After importing, the data is checked for missing values, invalid entries and negative values. Rows containing invalid data are removed. Total energy is calculated by adding grid energy and DG energy.
+
+The cleaned dataset is then used for KPI calculation and modeling. This step is important because incorrect or missing data can reduce prediction accuracy and create wrong simulation outputs.
+
+The preprocessing workflow is:
+\begin{enumerate}
+    \item Excel Dataset
+    \item MATLAB Import
+    \item Data Cleaning
+    \item Feature Creation
+    \item KPI Calculation
+    \item Model Training
+\end{enumerate}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\linewidth]{Figures/3.jpeg}
-    \caption{GUI and dashboard snippet from the MATLAB implementation depicting the data interface.}
-    \label{fig:matlab_gui}
+    \includegraphics[width=0.8\linewidth]{Figures/WhatsApp Image 2026-05-07 at 21.02.46.jpeg}
+    \caption{Data Preprocessing Workflow}
+    \label{fig:preprocessing_workflow}
 \end{figure}
 
-\section{KPI Computation}
-Daily operational performance metrics were compiled linearly across the dataset. The algorithm extracted fixed base load, separated variable grid contributions, and isolated DG parameters to populate a localized efficiency matrix. 
+\section{MATLAB-Based Digital Twin Implementation}
+The MATLAB implementation includes KPI calculation, regression modeling, prediction and scenario simulation. The linear and quadratic models are trained using production and total energy data. The quadratic model is selected because it gives better performance.
 
-\begin{table}[h]
-\centering
-\caption{Baseline KPI Findings (Calculated Averages over 59 days)}
-\label{tab:kpisummary}
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Metric} & \textbf{Computed Value} \\
-\hline
-Average Daily Production & 830 Parts \\
-Average Daily Energy ($E_{total}$) & 1045 kWh \\
-Average EPU & 1.25 kWh/Part \\
-Daily Baseline Factory Cost & \rupee 6,850 \\
-Average Daily DG Dependency & 12.4 \% \\
-\hline
-\end{tabular}
-\end{table}
+The digital twin takes production as input and predicts energy consumption. It then calculates cost, efficiency, EPU and emissions. The digital twin can also simulate changes such as DG reduction, production increase and base-load reduction.
 
-\section{Regression Modeling}
-Initial system identification proceeded by mapping the relationship between output (machined parts) and load (kWh). Linear alignment provided a rigid baseline structure, but the system inherently demanded a quadratic overlay to compensate for mechanical thermal drift identified at higher production volumes.
+The general working is:
+\begin{enumerate}
+    \item Input Production
+    \item Predict Energy
+    \item Calculate KPIs
+    \item Simulate Scenario
+    \item Display Result
+\end{enumerate}
 
-\begin{table}[h]
-\centering
-\caption{Linear vs Quadratic Alignment Data}
-\label{tab:model_compare}
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Model Framework} & \textbf{Coefficient of Determination ($R^2$)} & \textbf{RMSE (kWh/day)} \\
-\hline
-Linear ($mx + c$) & 0.842 & 48.2 \\
-Quadratic ($ax^2 + bx + c$) & 0.965 & 12.4 \\
-\hline
-\end{tabular}
-\end{table}
+\section{AI Forecasting, Load Scheduling and Anomaly Detection}
+The AI forecasting system uses LSTM to predict next-day energy demand. The forecast is compared with the safe grid limit. If the predicted energy is below the grid limit, the system gives a safe status. If predicted demand exceeds the grid limit, the system recommends load shifting.
 
-\section{Validation and Plot Evaluation}
-Mathematical error variance must remain minimal for the digital twin to be trusted in a live environment. Computing accuracy against testing sets proven definitively that the quadratic approach tracks physical realities accurately.
+The load scheduling logic divides the day into time blocks such as night, early morning, morning peak, afternoon and evening. If high demand is predicted, heavy loads are shifted away from peak periods to avoid DG usage.
 
-\begin{figure}[h]
+Anomaly detection is performed using a 7-day rolling mean and standard deviation. If a day's energy consumption deviates more than 2 sigma from the rolling average, it is flagged as abnormal. This helps identify unusual energy usage caused by machine faults, maintenance or sudden production changes.
+
+\section{Dashboard Prototype Implementation}
+The dashboard prototype displays the output of the digital twin in a user-friendly format. It helps factory managers understand the current energy condition and make better decisions.
+
+The dashboard includes:
+\begin{enumerate}
+    \item Total energy card.
+    \item Cost card.
+    \item CO2 emission card.
+    \item DG usage card.
+    \item Energy trend graph.
+    \item AI forecast result.
+    \item Load-balancing result.
+    \item What-if simulator.
+    \item Anomaly detection chart.
+    \item Schedule advisor.
+\end{enumerate}
+
+\begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}
-    \begin{axis}[
-        xlabel={Production Output (Parts)},
-        ylabel={Total Energy Demand (kWh)},
-        grid=major,
-        width=0.8\textwidth,
-        height=7cm,
-        legend pos=north west]
-    
-    \addplot[only marks, mark=x, color=blue] coordinates {
-        (500, 700) (520, 730) (580, 800) (650, 880) (700, 930) (750, 960) (800, 1020) (850, 1080) (900, 1150) (950, 1230)
-    };
-    \addplot[smooth, thick, color=red, domain=500:950] {0.0006*x^2 + 0.2*x + 450};
-    \addplot[dashed, thick, color=black, domain=500:950] {1.05*x + 150};
-    
-    \legend{Observed Factory Data, Quadratic Fit, Linear Fit}
-    \end{axis}
-    \end{tikzpicture}
-    \caption{MATLAB Output: Energy vs Production Curve}
-    \label{fig:energy_vs_production}
+    \includegraphics[width=0.8\linewidth]{Figures/WhatsApp Image 2026-05-07 at 21.08.19.jpeg}
+    \caption{Dashboard Prototype Output}
+    \label{fig:dashboard_prototype}
 \end{figure}
-
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}
-    \begin{axis}[
-        xlabel={Operating Day},
-        ylabel={Daily Energy (kWh)},
-        grid=major,
-        width=0.8\textwidth,
-        height=6cm,
-        legend pos=south east]
-    
-    \addplot[thick, color=blue, smooth] coordinates {
-        (1, 950) (2, 980) (3, 900) (4, 850) (5, 1050) (6, 1100) (7, 1020)
-    };
-    \addplot[thick, color=red, dashed, smooth] coordinates {
-        (1, 940) (2, 995) (3, 885) (4, 860) (5, 1065) (6, 1080) (7, 1005)
-    };
-    \legend{Actual Consumption, Twin Predicted Consumption}
-    \end{axis}
-    \end{tikzpicture}
-    \caption{Validation: Actual vs Predicted Energy Tracking}
-    \label{fig:actual_vs_predicted}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}
-    \begin{axis}[
-        xlabel={Production Scale (Parts)},
-        ylabel={Efficiency $\eta$ (Yield/kWh)},
-        grid=major,
-        width=0.45\textwidth,
-        height=6cm
-        ]
-    \addplot[smooth, color=teal, thick, domain=400:1000] {x / (0.0006*x^2 + 0.2*x + 450)};
-    \end{axis}
-    \end{tikzpicture}
-    \hspace{0.5cm}
-    \begin{tikzpicture}
-    \begin{axis}[
-        xlabel={Production Scale (Parts)},
-        ylabel={EPU (kWh/Part)},
-        grid=major,
-        width=0.45\textwidth,
-        height=6cm
-        ]
-    \addplot[smooth, color=orange, thick, domain=400:1000] {(0.0006*x^2 + 0.2*x + 450) / x};
-    \end{axis}
-    \end{tikzpicture}
-    \caption{(Left) Operational Efficiency Profile; (Right) Energy Per Unit Curve}
-    \label{fig:efficiency_and_epu}
-\end{figure}
-
-As indicated in Figure \ref{fig:efficiency_and_epu}, as manufacturing volume increases, the fixed standby loads proportionately shrink against total output. However, pushing production past 900 parts initiates a harsh efficiency cascade due to mechanical thermal stress, visually validating why predictive operational simulation is mandatory.

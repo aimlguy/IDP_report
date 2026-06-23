@@ -1,111 +1,118 @@
-\chapter{System Design}
+\chapter{Analysis/Design of AI-Driven Digital Twin for MSME Energy Optimization}
 \label{chap:design}
 
-\section{Dataset Identification}
-The dataset forms the core of the digital twin implementation. Data was extracted from a regional MSME CNC machining facility containing historical daily operational logs over a span of 59 continuous operating days. 
+\section{Dataset and Preprocessing}
+The dataset used in this project consists of daily MSME operational data. The main input parameters are production output, grid energy consumption and diesel-generator energy consumption. The data is stored in Microsoft Excel and imported into MATLAB for analysis.
 
-\begin{table}[h]
+The preprocessing steps are:
+\begin{enumerate}
+    \item Import the Excel dataset into MATLAB.
+    \item Remove missing values.
+    \item Remove negative energy values and invalid production values.
+    \item Convert numeric values into a consistent format.
+    \item Calculate total energy as the sum of grid energy and DG energy.
+    \item Create additional features such as day of week and weekend indicator.
+    \item Create a DG activation label where DG Active = 1 if DG energy is greater than zero.
+\end{enumerate}
+
+\begin{table}[htbp]
 \centering
-\caption{Dataset Variable Specifications}
-\label{tab:variables}
-\begin{tabular}{|l|l|l|}
+\caption{Dataset Parameters}
+\label{tab:dataset_params}
+\begin{tabular}{|l|c|p{6cm}|}
 \hline
-\textbf{Variable} & \textbf{Measurement Unit} & \textbf{Data Type} \\
+\textbf{Parameter} & \textbf{Unit} & \textbf{Description} \\
 \hline
-Production Level & Machined Parts (Units) & Integer \\
-EB Load (Grid) & Kilowatt-hours (kWh) & Float \\
-DG Load (Diesel) & Kilowatt-hours (kWh) & Float \\
-Total Energy & Kilowatt-hours (kWh) & Float \\
-Operating Hours & Hours (h) & Float \\
+Production & units/day & Daily production output \\
+Grid Energy & kWh/day & Energy supplied by grid \\
+DG Energy & kWh/day & Energy supplied by diesel generator \\
+Total Energy & kWh/day & Grid energy + DG energy \\
+DG Active & 0 or 1 & Indicates generator usage \\
 \hline
 \end{tabular}
 \end{table}
 
-\section{Preprocessing}
-Raw facility data often contains gaps due to sensor dropout or scheduled maintenance days. The 59 observations underwent rigorous preprocessing within MATLAB. Zero-value production days were isolated to identify baseline grid drift, while missing power parameters were reconstructed utilizing mean interpolation. Outliers exceeding 3 standard deviations (Z-score $> 3$) resulting from metering faults were expunged to guarantee model stability.
+\section{Mathematical Modeling of Energy Consumption}
+The first stage of digital twin development is mathematical modeling. The relationship between production and total energy consumption is studied using regression models.
+
+The total energy is calculated as:
+\begin{equation}
+E_{total} = E_{grid} + E_{DG}
+\end{equation}
+
+Energy efficiency is calculated as:
+\begin{equation}
+Efficiency = \frac{Production}{Total Energy}
+\end{equation}
+
+Energy Per Unit is calculated as:
+\begin{equation}
+EPU = \frac{Total Energy}{Production}
+\end{equation}
+
+Operating cost is calculated as:
+\begin{equation}
+Cost = (E_{grid} \times Tariff_{grid}) + (E_{DG} \times Tariff_{DG})
+\end{equation}
+
+Carbon dioxide emissions are calculated as:
+\begin{equation}
+CO_2 = (\alpha \times E_{DG}) + (\gamma \times E_{Grid})
+\end{equation}
+
+The linear regression model is:
+\begin{equation}
+\hat{E} = mP + c
+\end{equation}
+
+The quadratic regression model is:
+\begin{equation}
+\hat{E} = aP^2 + bP + c
+\end{equation}
+
+where $\hat{E}$ is predicted energy, $P$ is production, and $a, b, c$ and $m$ are model constants.
+
+The models are compared using $R^2$ and RMSE. A higher $R^2$ value and lower RMSE value indicate a better prediction model.
+
+\section{Machine Learning Model Design}
+Machine learning models are added to improve prediction and decision support.
+\begin{enumerate}
+    \item Random Forest Regressor: The Random Forest Regressor predicts total energy demand using production and calendar-based features. It is useful because it can handle nonlinear data and outliers.
+    \item Random Forest Classifier: The Random Forest Classifier predicts whether the diesel generator will be active or not. This helps the factory prepare for possible generator usage.
+    \item XGBoost Classifier: XGBoost predicts generator activation using previous energy values. It acts as a second classifier to improve the confidence of DG alert decisions.
+    \item LSTM Forecasting Model: LSTM predicts next-day energy demand using recent energy consumption patterns. This supports the AI schedule advisor and load-balancing system.
+\end{enumerate}
+
+\section{Scenario Simulation Engine}
+The scenario simulation engine is the main part of the digital twin. It allows the user to test different operating conditions without affecting the real factory.
+
+The main scenarios are:
+\begin{enumerate}
+    \item Energy Prediction Scenario: Predicts energy demand for a given production value.
+    \item DG Reduction Scenario: Studies cost and CO2 savings when DG usage is reduced.
+    \item Production Increase Scenario: Studies the effect of increased production on energy and cost.
+    \item Base-Load Reduction Scenario: Studies energy savings by reducing fixed energy consumption.
+    \item Peak Load Analysis: Compares energy performance during peak and non-peak production periods.
+\end{enumerate}
+This allows MSME managers to understand the effect of operational changes before applying them in the real system.
+
+\section{Dashboard and Decision Support Design}
+The dashboard is designed to present the digital twin output in a simple and understandable manner. It includes KPI cards, energy trend graphs, prediction results, anomaly alerts, and what-if simulation tools.
+
+The dashboard contains:
+\begin{enumerate}
+    \item KPI summary cards for total energy, cost, CO2 and DG share.
+    \item Energy trend chart showing grid, DG and total energy consumption.
+    \item AI forecast card showing next-day energy prediction.
+    \item Load-balancing result showing optimized and unoptimized cost.
+    \item Schedule advisor showing suggested machine operating load by time block.
+    \item What-if simulator for changing production and viewing live results.
+    \item Anomaly detection chart showing abnormal energy days.
+\end{enumerate}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\linewidth]{Figures/2.jpeg}
-    \caption{Preprocessing pipeline and data flow architecture within the Digital Twin environment}
-    \label{fig:preprocessing_dataflow}
+    \includegraphics[width=0.8\linewidth]{Figures/WhatsApp Image 2026-05-07 at 21.02.45.jpeg}
+    \caption{Proposed Five-Layer System Architecture}
+    \label{fig:proposed_architecture}
 \end{figure}
-
-\section{Mathematical Formulation}
-The digital twin requires absolute definitions connecting mechanical operations to electrical measurements.
-
-\subsection{Energy Formulas}
-The absolute total facility energy aggregates both the utility grid ($E_{EB}$) and backup diesel generation ($E_{DG}$):
-$$ E_{total} = E_{EB} + E_{DG} $$
-
-Operational efficiency ($\eta$) relates total energy consumed against active yield:
-$$ \eta = \frac{E_{total}}{\text{Production}} $$
-
-Energy Per Unit (EPU) specifies the exact energy density embedded within a single product:
-$$ EPU = \frac{E_{total}}{\text{Production}} \text{ (kWh/Unit)} $$
-
-Cost evaluations assume standardized regional tariff boundaries (e.g., grid power at \rupee 6/kWh and DG fuel-equivalent energy at \rupee 15/kWh):
-$$ \text{Total Cost} (\text{\rupee}) = 6 E_{EB} + 15 E_{DG} $$
-
-Carbon emission equivalents scale drastically based on thermal generation:
-$$ CO_2 (\text{kg}) \approx 0.8 \times E_{DG} $$
-
-\subsection{Predictive Architecture}
-The system trains a foundational linear model serving as the analytical baseline:
-$$ Energy_{pred} = m (\text{Production}) + C $$
-Here, $C$ physically represents the plant's standby baseline consumption when $Production = 0$.
-
-Subsequently, a quadratic regression architecture maps actual machine behavior, compensating for internal friction and thermal capacity losses at maximum RPM outputs:
-$$ Energy_{pred} = a (\text{Production})^2 + b (\text{Production}) + c $$
-
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[
-        node distance=2cm,
-        block/.style={rectangle, draw, fill=gray!10, text width=7em, text centered, rounded corners, minimum height=4em, thick},
-        line/.style={draw, -latex, thick}
-    ]
-        \node [block] (data) {Raw Dataset (59 Days)};
-        \node [block, below of=data] (pre) {MATLAB Preprocessing};
-        \node [block, below of=pre] (kpi) {KPI Extraction (EPU, CO2)};
-        \node [block, below of=kpi] (train) {Regression Training};
-        \node [block, right of=train, node distance=5cm] (eval) {Model Validation (R2, RMSE)};
-        \node [block, above of=eval, node distance=4cm] (twin) {Digital Twin Construction};
-        \node [block, above of=twin, node distance=2cm] (sim) {Scenario Optimization};
-
-        \path [line] (data) -- (pre);
-        \path [line] (pre) -- (kpi);
-        \path [line] (kpi) -- (train);
-        \path [line] (train) -- (eval);
-        \path [line] (eval) -- (twin);
-        \path [line] (twin) -- (sim);
-    \end{tikzpicture}
-    \caption{Methodology Workflow Diagram}
-    \label{fig:methodology}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[
-        node distance=1.5cm,
-        block/.style={rectangle, draw, fill=blue!5, text width=6em, text centered, minimum height=3em},
-        line/.style={draw, -latex, thick}
-    ]
-        \node [block] (meter) {IoT Gateway};
-        \node [block, right of=meter, node distance=4cm] (db) {Cloud SQL DB};
-        \node [block, right of=db, node distance=4cm] (engine) {AI Inference Engine};
-        \node [block, below of=engine, node distance=2.5cm] (dash) {Web Dashboard};
-
-        \path [line] (meter) -- node[above] {Telemetry} (db);
-        \path [line] (db) -- node[above] {Data Fetch} (engine);
-        \path [line] (engine) -- node[right] {JSON APIs} (dash);
-    \end{tikzpicture}
-    \caption{Proposed Digital Twin Systems Architecture}
-    \label{fig:architecture}
-\end{figure}
-
-\section{System Architecture}
-The framework operates as a segmented pipeline. Local plant data funnels through an IoT gateway protocol directly transmitting telemetry frames natively into a structured cloud SQL environment. The backend AI Inference Engine---housing the pre-trained MATLAB/Python coefficients---polls the database, computes current efficiencies, and pushes numerical insights to the external presentation layer.
-
-\section{Dashboard Design}
-The final application layer provides intuitive visualization interfaces. By rendering synchronous graphs regarding predicted baseline deviations and active DG consumption costs, it allows facility supervisors to execute rapid, well-informed adjustments terminating demand limit excursions before substantial financial penalties accrue.

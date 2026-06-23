@@ -1,26 +1,37 @@
 \chapter{Conclusion and Future Scope}
-\label{chap:conclution}
+\label{chap:conclusion}
 
 \section{Conclusion}
-This research successfully developed and tested an AI-driven Digital Twin for monitoring and optimizing industrial energy consumption in MSMEs. Using daily energy logs from a physically constrained machining facility, the mathematical application of quadratic regression proved highly effective, achieving a prediction accuracy of $R^2 = 0.965$. This accuracy enables the twin to reliably model potential operational constraints without requiring physical implementation on the factory floor. Simulation scenarios demonstrated clear financial potential: shifting the load profile to eliminate diesel dependency entirely generates a 60\% reduction in energy expenditure alongside an 836 kg drop in daily CO\textsubscript{2} emissions. Ultimately, the system establishes a scalable and affordable framework that integrates data analytics effectively into traditional manufacturing environments.
+This project developed an AI-driven digital twin framework for smart energy optimization in MSMEs. The system uses production and energy data to calculate KPIs, predict energy demand, simulate energy-saving scenarios and provide decision support through a dashboard.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Figures/6.jpeg}
-    \caption{Final output visualization corresponding to the Digital Twin optimization targets, demonstrating the simulated load forecasting scenario and the impact of intervention.}
-    \label{fig:conclusion_summary_6}
-\end{figure}
+The quadratic regression model was found to be better than the linear regression model for predicting total energy consumption. Machine learning models improved prediction and classification capability. Scenario analysis showed that reducing diesel-generator usage and shifting loads can reduce operating cost and carbon dioxide emissions.
 
-\section{Future Work}
-\begin{itemize}
-    \item \textbf{High-Frequency Edge Deployment:} Evolving from daily historical records to real-time integration utilizing Wi-Fi enabled Edge IoT sensors measuring running parameters at sub-second intervals.
-    \item \textbf{Automated Alert Processing:} Deploying script algorithms to trigger maintenance alerts natively when instantaneous machine load deviates drastically from established prediction curves.
-    \item \textbf{Neural Network Integration:} Implementing robust Long Short-Term Memory (LSTM) topologies to map complex seasonal weather variants and ambient thermal effects on heavy inductive equipment.
-\end{itemize}
+The digital twin approach allows MSMEs to test different energy management strategies virtually before applying them in the real plant. This reduces risk and supports better decision-making. The project demonstrates that AI, IoT-based analytics and digital twin technology can provide a practical and scalable solution for MSME energy optimization.
 
-\section{Learning Outcomes}
-\begin{itemize}
-    \item Demonstrated proficiency in extracting predictive logic and Key Performance Indicators directly from raw operational facility data.
-    \item Successfully built and validated foundational regression models evaluating non-linear thermal scaling boundaries of industrial machineries.
-    \item Quantified abstract sustainable concepts (EPU tracking and Emissions footprints) translating theoretical equations into precise real-world monetary returns.
-\end{itemize}
+\section{Future Scope}
+The future scope of the project includes:
+\begin{enumerate}
+    \item Integration of real-time IoT sensors for live voltage, current, power and energy data collection.
+    \item Cloud-based deployment for multiple MSME units.
+    \item Use of advanced deep learning models for more accurate forecasting.
+    \item Integration of renewable energy sources such as solar power.
+    \item Addition of predictive maintenance using vibration and temperature sensors.
+    \item Development of a mobile application for factory managers.
+    \item Use of reinforcement learning for automatic load scheduling.
+    \item Inclusion of grid carbon emission factors for more accurate sustainability analysis.
+    \item Testing the model on larger datasets from different industries.
+    \item Development of a MATLAB Simulink model for system-level simulation.
+\end{enumerate}
+
+\section{Learning Outcomes of the Project}
+The major learning outcomes of the project are:
+\begin{enumerate}
+    \item Understanding of MSME energy consumption patterns and industrial energy KPIs.
+    \item Practical knowledge of digital twin technology for manufacturing systems.
+    \item Application of MATLAB for data cleaning, modeling, simulation and visualization.
+    \item Understanding of regression models and machine learning models for energy prediction.
+    \item Knowledge of diesel-generator cost and CO2 impact in industrial operations.
+    \item Ability to design what-if simulation scenarios for decision support.
+    \item Understanding of dashboard-based visualization for engineering applications.
+    \item Awareness of Industry 4.0 technologies such as IoT, AI and Digital Twin systems.
+\end{enumerate}

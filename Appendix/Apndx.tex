@@ -1,60 +1,122 @@
-\chapter{MATLAB Output and Dashboard Configurations}
-\section{MATLAB Regression Snippets}
-The following MATLAB commands extract coefficients utilizing robust fitting models:
-\begin{tcblisting}{listing only,colback=gray!10!white, breakable, boxsep=0pt,top=1mm,bottom=1mm,left=1mm,right=1mm,
-listing options={
-language= Matlab,
-basicstyle=\small\ttfamily, 
-commentstyle=\color{gray},
-keywordstyle=\color{blue}
-}}
-% Load historical MSME Dataset
-data = readtable('energy_dataset.xlsx');
+\chapter{CODE}
+\label{app:code}
 
-% Preprocessing
+\section{Main MATLAB Code Structure}
+\begin{lstlisting}[language=Matlab]
+clc;
+clear;
+close all;
+
+data = readtable('MSME_Energy_Data.xlsx');
+
 production = data.Production;
-totalEnergy = data.E_eb + data.E_dg;
+grid_energy = data.Grid_Energy;
+dg_energy = data.DG_Energy;
 
-% Polynomial Fitting (Quadratic)
-p = polyfit(production, totalEnergy, 2);
+valid_idx = production > 0 & grid_energy >= 0 & dg_energy >= 0;
+production = production(valid_idx);
+grid_energy = grid_energy(valid_idx);
+dg_energy = dg_energy(valid_idx);
 
-% Predicting values based on the quadratic curve
-predictedEnergy = polyval(p, production);
+total_energy = grid_energy + dg_energy;
 
-% Calculate Correlation Coefficient
-R_sq = 1 - sum((totalEnergy - predictedEnergy).^2) / sum((totalEnergy - mean(totalEnergy)).^2);
-disp(['R-squared value: ', num2str(R_sq)]);
-\end{tcblisting}
+efficiency = production ./ total_energy;
+EPU = total_energy ./ production;
 
-\section{Sample Dataset Snippet}
-\begin{table}[h]
-\centering
-\caption{Sample Operational Data}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\textbf{Day} & \textbf{Production} & \textbf{E\_EB (kWh)} & \textbf{E\_DG (kWh)} & \textbf{Total (kWh)} \\
-\hline
-1 & 500 & 850 & 50 & 900 \\
-2 & 550 & 900 & 100 & 1000 \\
-3 & 600 & 980 & 120 & 1100 \\
-\hline
-\end{tabular}
-\end{table}
+grid_tariff = 6;
+dg_tariff = 15;
+emission_factor = 0.8;
 
-\section{Scenario Export Examples}
-\begin{table}[h]
-\centering
-\caption{Scenario Export Tables}
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Scenario} & \textbf{Savings Forecast (\%)} & \textbf{CO\textsubscript{2} Reduction (\%)} \\
-\hline
-DG Shutoff & +15\% & -80\% \\
-Load Shifting & +12\% & -10\% \\
-Standby Cut & +22\% & -18\% \\
-\hline
-\end{tabular}
-\end{table}
+cost = grid_energy .* grid_tariff + dg_energy .* dg_tariff;
+co2 = dg_energy .* emission_factor;
 
-\section{Dashboard Constraints}
-The implemented web dashboard reads direct simulation variables visualizing line graphs in synchronous updates. Export tables allow administrators to save configurations safely preserving modeled cost comparisons.
+linear_model = polyfit(production, total_energy, 1);
+linear_pred = polyval(linear_model, production);
+
+quad_model = polyfit(production, total_energy, 2);
+quad_pred = polyval(quad_model, production);
+
+SS_res_linear = sum((total_energy - linear_pred).^2);
+SS_res_quad = sum((total_energy - quad_pred).^2);
+SS_tot = sum((total_energy - mean(total_energy)).^2);
+
+R2_linear = 1 - (SS_res_linear / SS_tot);
+R2_quad = 1 - (SS_res_quad / SS_tot);
+
+RMSE_linear = sqrt(mean((total_energy - linear_pred).^2));
+RMSE_quad = sqrt(mean((total_energy - quad_pred).^2));
+
+fprintf('Linear R2 = %f\n', R2_linear);
+fprintf('Quadratic R2 = %f\n', R2_quad);
+fprintf('Linear RMSE = %f\n', RMSE_linear);
+fprintf('Quadratic RMSE = %f\n', RMSE_quad);
+
+figure;
+scatter(production, total_energy, 'filled');
+hold on;
+plot(production, linear_pred, 'LineWidth', 2);
+plot(production, quad_pred, 'LineWidth', 2);
+xlabel('Production');
+ylabel('Total Energy (kWh)');
+title('Production vs Total Energy');
+legend('Actual Data', 'Linear Fit', 'Quadratic Fit');
+grid on;
+\end{lstlisting}
+
+\section{DG Reduction Scenario Code}
+\begin{lstlisting}[language=Matlab]
+dg_reduction = [0.10 0.30 0.50];
+
+for i = 1:length(dg_reduction)
+    reduced_dg = dg_energy .* (1 - dg_reduction(i));
+    new_cost = grid_energy .* grid_tariff + reduced_dg .* dg_tariff;
+    cost_saving = sum(cost) - sum(new_cost);
+    co2_reduction = sum(dg_energy - reduced_dg) * emission_factor;
+    
+    fprintf('DG Reduction = %d%%\n', dg_reduction(i)*100);
+    fprintf('Cost Saving = Rs. %.2f\n', cost_saving);
+    fprintf('CO2 Reduction = %.2f kg\n', co2_reduction);
+end
+\end{lstlisting}
+
+\section{Anomaly Detection Code}
+\begin{lstlisting}[language=Matlab]
+window = 7;
+rolling_mean = movmean(total_energy, window);
+rolling_std = movstd(total_energy, window);
+
+anomaly = abs(total_energy - rolling_mean) > 2 * rolling_std;
+
+figure;
+plot(total_energy, 'LineWidth', 2);
+hold on;
+plot(find(anomaly), total_energy(anomaly), 'ro', 'MarkerSize', 8);
+xlabel('Day');
+ylabel('Total Energy (kWh)');
+title('Energy Anomaly Detection');
+legend('Energy Consumption', 'Anomaly');
+grid on;
+\end{lstlisting}
+
+\section{Load Scheduling Logic}
+\begin{lstlisting}[language=Matlab]
+safe_grid_limit = 9740;
+forecast_energy = 10255;
+
+if forecast_energy > safe_grid_limit
+    dg_load = forecast_energy - safe_grid_limit;
+    
+    unoptimized_cost = safe_grid_limit * grid_tariff + dg_load * dg_tariff;
+    optimized_cost = forecast_energy * grid_tariff;
+    
+    savings = unoptimized_cost - optimized_cost;
+    co2_avoided = dg_load * emission_factor;
+    
+    fprintf('DG Risk Detected\n');
+    fprintf('Load to shift = %.2f kWh\n', dg_load);
+    fprintf('Cost Saving = Rs. %.2f\n', savings);
+    fprintf('CO2 Avoided = %.2f kg\n', co2_avoided);
+else
+    fprintf('Safe Load Condition. DG not required.\n');
+end
+\end{lstlisting}
